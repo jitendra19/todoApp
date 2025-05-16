@@ -37,7 +37,10 @@ function TodoList() {
             }
             return item;
         });
-        setTasks([...updatedTasks.filter((a)=> !a.completed), ...updatedTasks.filter((a)=> a.completed)]);
+        const notC = updatedTasks.sort((a, b) => b.time - a.time).filter((a)=> !a.completed);
+        const C = updatedTasks.sort((a, b) => a.time - b.time).filter((a)=> a.completed);
+        // setTasks(updatedTasks);
+        setTasks([...notC, ...C]);
     }
 
     return <div className="todo-list">
