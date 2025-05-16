@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TodoItem from "./TodoItem";
 
 
@@ -8,9 +8,12 @@ function TodoList() {
         return savedTodos ? JSON.parse(savedTodos) : [];
       });
     const [text, setText] = useState("");
+    const count = useRef(tasks.length);
+
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(tasks));
+        count.current = tasks.filter(a=> !a.completed).length;
       }, [tasks]);
 
     const addItem = (text) => {
@@ -44,6 +47,7 @@ function TodoList() {
     }
 
     return <div className="todo-list">
+        <h1>TO DO List - {count.current} </h1>
         <div className="input">
             <input value={text} onChange={(e) => {setText(e.target.value)}}
                 onKeyDown={(e)=> {                    
