@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 
 
 function TodoList() {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState(() => {
+        const savedTodos = localStorage.getItem('todos');
+        return savedTodos ? JSON.parse(savedTodos) : [];
+      });
     const [text, setText] = useState("");
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(tasks));
+      }, [tasks]);
 
     const addItem = (text) => {
         if(!!text) {
@@ -15,7 +22,6 @@ function TodoList() {
             }
             setText('');
             setTasks([...tasks, task]);
-            
         }        
     }
 
@@ -24,12 +30,14 @@ function TodoList() {
     }
 
     const onComplete = (id) => {
-        setTasks(tasks.map((item) =>  {
+        const updatedTasks = tasks.map((item) =>  {
             if(item.time === id) {
                 item.completed = !item.completed;
+                item.time = Date.now();
             }
             return item;
-        }));
+        });
+        setTasks([...updatedTasks.filter((a)=> !a.completed), ...updatedTasks.filter((a)=> a.completed)]);
     }
 
     return <div className="todo-list">
