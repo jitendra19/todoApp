@@ -14,22 +14,20 @@ code {
 
 
 .App {
-  width: 500px;
   border: solid 1px blue;
-  height: 500px;
   text-align: center;
-  margin: auto;
+  display: flex ;
+  width: 100%;
 }
 .todo-list {
-  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   overflow-y: auto;
   height: 90%;
 }
-.todo-list h1 {
+/* .todo-list h1 {
   position: fixed;
-}
+} */
 
 .todo-item {
   display: flex;
